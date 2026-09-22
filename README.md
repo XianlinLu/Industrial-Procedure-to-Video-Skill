@@ -1,10 +1,10 @@
-# Canvas Manual to Video / 工业操作手册转视频
+# 工序镜链 / ProcessShot
 
-**原创、面向工业级生产流程的 Codex Skill / An original Codex Skill for production-grade industrial workflows**
+**原创、面向工业级生产流程的技能 / An original skill for production-grade industrial workflows**
 
 ## 中文介绍
 
-**Canvas Manual to Video** 是原创的工业级生产 Codex Skill，面向真实工业场景中的设备操作、装配、维护和标准作业培训。它将现场图片素材与用户提供的操作说明整理成可追溯的使用手册，再按步骤制作演示视频。它不绑定特定视频平台；实际创建节点、连线和生成视频时，以当前画布支持的功能为准。
+**工序镜链（ProcessShot）** 是原创的工业级生产技能，面向真实工业场景中的设备操作、装配、维护和标准作业培训。它将现场图片素材与用户提供的操作说明整理成可追溯的使用手册，再按步骤制作演示视频。它不绑定特定视频平台；实际创建节点、连线和生成视频时，以当前画布支持的功能为准。
 
 工作流程：
 
@@ -21,7 +21,7 @@
 
 ## English introduction
 
-**Canvas Manual to Video** is an original, production-grade Codex Skill designed for real industrial workflows, including equipment operation, assembly, maintenance, and standard work training. It turns site images and user-provided operating instructions into a traceable manual, then produces an instructional video shot for each step. It is platform agnostic: node creation, connections, and video generation follow the capabilities of the active canvas.
+**ProcessShot (工序镜链)** is an original, production-grade skill designed for real industrial workflows, including equipment operation, assembly, maintenance, and standard work training. It turns site images and user-provided operating instructions into a traceable manual, then produces an instructional video shot for each step. It is platform agnostic: node creation, connections, and video generation follow the capabilities of the active canvas.
 
 Workflow:
 
