@@ -1,66 +1,66 @@
 ---
 name: canvas-manual-to-video
-description: 原创工业级生产技能。在节点画布中把工业设备操作、装配或维护的图片素材和用户说明制作成可确认的使用手册，并逐步骤生成有素材连线的视频，适用于实际工业场景的操作演示与培训内容制作。
+description: Original production-grade skill for industrial operation videos. Turn uploaded equipment, assembly, or maintenance images and user instructions into an approved canvas manual, then generate one traceable video shot per step with direct source-image connections.
 ---
 
-# 工序镜链：工业操作图片与使用手册转视频
+# ProcessShot: From Industrial Images to Instructional Video
 
-在用户指定或当前可用的节点画布中工作。使用实际画布支持的图片、String／文本及视频节点；不要假定某个平台的节点类型、接口或生成参数存在。画布不可访问时，说明具体缺少的连接或权限，并保留已经完成的素材清单与手册草稿；不要声称已创建节点或连线。
+Work in the node canvas selected by the user or currently available. Use the image, String/text, and video nodes that the actual canvas supports. Do not assume a platform-specific node type, API, or generation setting exists. If the canvas is inaccessible, identify the missing connection or permission, preserve the asset inventory and manual draft, and do not claim that nodes or links were created. Write node names, manuals, and shot prompts in English unless the user explicitly requests another language.
 
-## 素材入画布
+## Prepare the source images
 
-1. 先检查画布已有节点，复用同一素材和已完成的节点，避免重复创建或重复生成。逐张查看用户上传的图片，并核对画布中的图片节点数量。保留原素材，不用生成图替代。每个图片节点命名为 `IMG-01｜可见主体或操作状态` 这类唯一、简短的名称，编号稳定。名称只描述图中可辨认的内容；看不清的部分标注“待确认”，不要猜测设备、零件、步骤或先后关系。
-2. 根据用户的操作说明确定实际操作顺序。以用户明确的顶层步骤为准；若说明没有分步，先按动作变化拟定步骤，写入待确认的使用手册。不要因为素材数量不同而强行增减步骤。一张图片可用于多个步骤，一步也可引用多张图片。
+1. Inspect the existing canvas first. Reuse source images and completed nodes to avoid duplicates or repeat generation. Inspect every uploaded image and reconcile the number of image nodes. Preserve the original assets. Give each image node a stable, unique name such as `IMG-01 | Visible Component or Operation State`. Describe only what is visibly supported; mark uncertain details `Needs confirmation` rather than guessing equipment, parts, actions, or sequence.
+2. Determine the operation order from the user's instructions. Use the user's explicit top-level steps. If the instructions are not divided into steps, draft a step sequence based on action changes and put it in the manual for approval. Do not force the step count to equal the image count. One image may support multiple steps, and one step may use several images.
 
-## 在画布上建立使用手册
+## Create the manual on the canvas
 
-创建一个可编辑、可持久保存的 String 或文本节点，命名为 `MANUAL-v1｜使用手册`。节点内容应包含：
+Create an editable, persistent String or text node named `MANUAL-v1 | User Manual`. Include:
 
-- 任务名称及用户明确给出的成片规格；未给出的规格标记为“待定”。
-- 图片索引：每张图片的节点名及其可见内容。
-- 从 `01` 连续编号的操作步骤。每步写明操作动作、对应图片节点名、拟呈现的镜头画面、完成该步可观察到的状态。把无法从图片或用户说明确定的信息写为“待确认”。
-- 明确声明“每个编号步骤对应一个视频镜头”。
+- The task name and any output specifications the user supplied; mark unspecified settings `To be decided`.
+- An image index with each image node name and its visible content.
+- Consecutively numbered steps starting at `01`. For each step, state the action, assigned image node names, intended shot visuals, and an observable completion state. Mark unsupported information `Needs confirmation`.
+- The rule that each numbered step maps to exactly one video shot.
 
-手册中的步骤数记为 N，镜头数必须恰好为 N。展示画布中的手册内容和步骤数，请用户确认手册；在得到明确确认前，不调用任何视频生成。若用户修改手册，更新节点和素材映射，再次确认最新版本。确认版本与后续镜头保持关联。
+If the manual has N steps, the production must have exactly N shots. Show the manual and step count to the user and obtain explicit approval before invoking any video generation. If the user changes the manual, update the node and image mapping, then seek approval of the new version. Keep each generated shot associated with the approved manual version.
 
-每一步至少要映射一张能支持该步画面的图片；若缺少素材或图片与操作说明矛盾，在手册中标出缺口并请用户补充或修正，解决后再进入确认关卡。镜头提示不得把未展示、未说明的操作细节当作事实。
+Every step needs at least one image that supports its visuals. If an image is missing or contradicts the instructions, mark the gap in the manual and ask the user to supply or correct the material before approval. Do not present unsupported operation details as facts.
 
-## 逐镜头提示词
+## Write a prompt for each shot
 
-为每个步骤单独写提示词，按以下顺序组织。将方括号内容替换为该步已确认的真实信息；最终提交给视频节点的提示词不得保留占位符。使用画布实际支持的图片引用语法（如 `@图片节点`），并把相同图片节点连到该视频节点。一个步骤内的多个连续动作写在同一镜头的“操作顺序”中，不额外拆镜头。
+Write one prompt per approved step in the structure below. Replace every bracketed placeholder with information supported by that step; do not send placeholders to the video node. Use the canvas's actual image-reference syntax, such as `@image-node`, and connect those same image nodes directly to the video node. Keep consecutive actions within one step in the same shot rather than creating extra shots.
 
 ```text
-视频内容与画面
-严格保持（@该步骤引用的图片）的设备外观、部件细节、相对位置和整体摆放方向一致，生成约[时长]秒的[用户指定或素材相符的画面风格]操作演示视频。[镜头方式；未指定时优先固定镜头。]输入图片中的步骤序号、箭头、黑色或红色标注线仅用于理解操作，除非用户要求保留，否则不出现在最终画面中。
+Video Content and Visuals
+Preserve the equipment appearance, component details, relative positions, and overall orientation shown in (@images assigned to this step). Generate an approximately [duration]-second [user-requested or source-consistent visual style] operation demonstration. [Camera treatment; prefer a fixed camera if none is specified.] Treat source-image step numbers, arrows, and black or red annotation lines as references only; exclude them from the final frame unless the user asks to retain them.
 
-操作顺序
-[按手册中本步骤的实际动作顺序，写清工具与部件的接触位置、运动方向、动作节奏及完成状态；仅写用户说明或图片能够支持的细节。]
+Operation Sequence
+[Describe the confirmed actions in order, including supported tool-to-part contact points, movement direction, pace, and visible completion state.]
 
-[仅当用户要求旁白或音效时加入“旁白与音效”小节，见下方规则。]
+[Insert the optional Narration and Sound Effects section only when requested.]
 
-画面约束
-除非用户明确要求，画面全程无字幕、标题、角标、步骤序号、示意标注线、品牌标识、水印或其他叠加文字；保持关键物体、操作方向和前后状态一致。[按用户要求补充其他约束。]
+Visual Constraints
+Unless explicitly requested, show no subtitles, titles, corner labels, step numbers, diagram lines, brand marks, watermarks, or other text overlays. Preserve the key objects, operation direction, and before/after states. [Add user-specific constraints.]
 ```
 
-当用户要求旁白和／或音效时，在“操作顺序”与“画面约束”之间插入音频小节：两者都要时标题为 `旁白与音效`（要求普通话时可写 `中文旁白与音效`），只要其中一种时标题为 `旁白` 或 `音效`。仅写用户要求的音频类型。旁白按本镜头动作逐句编写，语言、声线和语速遵从用户要求；未指定时与手册语言一致，表达清楚、自然，逐句与画面动作同步。音效只写本镜头实际发生的工具接触、旋转、滑动等声音，与动作同步，不沿用示例中不属于该镜头的声音。若两者都未要求，整段小节从提示词中删除，不保留标题、占位符或“无旁白音效”说明。背景音乐及其他人声按用户要求处理；未要求时不主动添加。
+When the user requests narration and/or sound effects, insert an audio section between `Operation Sequence` and `Visual Constraints`. Title it `Narration and Sound Effects` when both are requested, or `Narration` / `Sound Effects` when only one is requested. Write narration line by line from this shot's actual action. Follow the requested language, voice, and pace; if unspecified, use the manual's language and a clear, natural delivery. Synchronize each line with the corresponding action. Describe only sounds that the shot's actual contacts and movements would produce, synchronized to the visuals. Do not reuse sounds from an unrelated example. If neither narration nor sound effects are requested, remove the entire section, including its heading and placeholder. Do not add background music or other voices unless requested.
 
-“工程三维渲染”“固定镜头”和具体秒数是可按用户需求采用的示例参数，不把它们强加给所有项目。输入示意图的图形标注与设备自身的真实结构、操作必需的标记应区分；去除前者时不要误删后者。每个镜头生成前检查提示词和图片连线引用的是同一步素材，动作方向与手册一致，且没有凭示例引入无关工具、零件或操作。
+Engineering 3D rendering, a fixed camera, and a specific duration are example parameters, not universal requirements. Distinguish graphic annotations in a source diagram from real equipment details or operationally necessary markings. Before generation, verify that the prompt and image links refer to the same step, the movement direction matches the approved manual, and no unrelated tool, part, or action was copied from an example.
 
-## 首镜头试制
+## Produce and approve the first shot
 
-手册获确认后，只为步骤 01 创建并生成 `SHOT-01｜步骤名称` 视频节点。按“逐镜头提示词”结构编写该步提示，沿用用户指定的风格、画幅、时长等条件；未指定的参数选择画布可用的一致设置，并在手册或节点中记录。把该步引用的每个图片节点直接连接到该视频节点；若画布允许，也关联对应的手册步骤。生成前核对连线、素材内容、动作顺序和提示词一致。
+After manual approval, create and generate only `SHOT-01 | Step Name` for step 01. Use the shot prompt structure above and the user's specified style, aspect ratio, duration, and other settings. Choose consistent available settings for unspecified parameters and record them in the manual or node. Connect every assigned image node directly to the shot's video node. If supported, also link the relevant manual step. Check the image links, asset contents, action sequence, and prompt before generation.
 
-检查首镜头是否可播放、是否忠实于步骤、是否保留关键物体和操作状态，并把结果呈现给用户。等待用户明确确认首镜头。若用户要求修改，先修正并重做首镜头；不要提前生成步骤 02 至 N。
+Check that the first shot plays, follows its step, and preserves the key objects and operation states. Show it to the user and wait for explicit approval. If revisions are requested, correct and regenerate the first shot. Do not generate steps 02 through N before that approval.
 
-## 批量生成与交付核验
+## Generate the remaining shots and verify delivery
 
-首镜头获得明确确认后，才按已确认的手册生成步骤 02 至 N。每步恰好对应一个独立视频镜头节点；将该步引用的所有图片节点分别连向对应视频节点。复用首镜头已确认的视觉和技术设置，除非手册对某步有明确例外。记录各镜头的步骤号、素材节点、生成状态与输出节点。只重试失败或需要修正的镜头，不重复提交已成功的生成任务。
+Only after first-shot approval, generate steps 02 through N from the approved manual. Create exactly one separate video shot node per step and connect every image assigned to that step directly to its video node. Reuse the approved visual and technical settings unless the manual specifies an exception. Track the step number, source-image nodes, generation status, and output node for each shot. Retry only failed or revised shots; do not resubmit successful generation jobs.
 
-交付前逐项核对：
+Before delivery, verify:
 
-- 图片节点全部有唯一、内容相符的名称；手册节点可打开且为获确认的版本。
-- 手册有 N 个编号步骤，画布上有 N 个对应的视频镜头；编号、顺序和动作一致，无漏镜头或多余镜头。
-- 每个镜头都有来自其指定图片素材的实际连线；无错接、断线或仅在文字里提及而未连线的素材。
-- 视频可播放，画面符合相应步骤；记录失败、不可用素材或待确认事项，不把未完成任务称作已交付。
+- Every image node has a unique, accurate name, and the manual node opens to the approved version.
+- N numbered manual steps map to N video shots with matching order and actions, without omissions or extras.
+- Every shot has actual links from its assigned source images, with no wrong, broken, or merely mentioned links.
+- Videos play and show their assigned steps. Report failures, unusable assets, or open questions instead of calling incomplete work delivered.
 
-若平台无法建立图片到视频的真实连线，暂停受影响镜头的生成并说明限制。若已确认手册的步骤或素材映射发生变化，先更新手册并重新取得确认；若首镜头的关键视觉约定也受影响，重新试制并取得首镜头确认，再继续批量生成。最终向用户报告手册版本、镜头总数、每个镜头的素材映射和完成状态。除非用户另外要求，不自动把独立镜头合并成一条成片。
+If the platform cannot create a real image-to-video connection, pause generation of the affected shot and explain the limitation. If approved steps or image mappings change, update and reapprove the manual. If the change affects the first shot's key visual conventions, remake and reapprove that shot before batch generation resumes. Report the manual version, total shot count, image mapping, and completion status. Do not combine separate shots into one final film unless the user asks.
