@@ -1,8 +1,10 @@
-# Canvas Manual to Video / 画布使用手册转视频
+# Canvas Manual to Video / 工业操作手册转视频
+
+**原创、面向工业级生产流程的 Codex Skill / An original Codex Skill for production-grade industrial workflows**
 
 ## 中文介绍
 
-**Canvas Manual to Video** 是一个面向节点画布的 Codex Skill，用于把用户上传的图片素材和操作说明整理成可追溯的操作演示视频工作流。它不绑定特定视频平台；实际创建节点、连线和生成视频时，以当前画布支持的功能为准。
+**Canvas Manual to Video** 是原创的工业级生产 Codex Skill，面向真实工业场景中的设备操作、装配、维护和标准作业培训。它将现场图片素材与用户提供的操作说明整理成可追溯的使用手册，再按步骤制作演示视频。它不绑定特定视频平台；实际创建节点、连线和生成视频时，以当前画布支持的功能为准。
 
 工作流程：
 
@@ -13,13 +15,13 @@
 5. 获得首镜头确认后，批量生成其余镜头。每个视频镜头都连接到该步骤对应的图片节点。
 6. 核对镜头数量、步骤顺序、素材连线与视频可播放状态。
 
-技能会标出图片无法辨认或步骤缺少对应素材的地方，不把推测写成事实。手册或素材映射发生变化时，会重新经过相应的确认环节。
+面向实际工业使用，技能要求素材、操作步骤和镜头一一对应，并保留人工确认关卡。图片无法辨认、技术细节不明确或步骤缺少对应素材时，会标出缺口，不把推测写成事实。手册或素材映射发生变化时，会重新经过相应的确认环节。
 
 **使用方式：** 将本仓库作为 Skill 导入，或把 `SKILL.md` 与 `agents/openai.yaml` 放入同名技能目录。在支持节点画布的环境中，上传图片并提供操作说明，然后调用 `canvas-manual-to-video`。
 
 ## English introduction
 
-**Canvas Manual to Video** is a Codex skill for turning uploaded images and operating instructions into a traceable, node-based instructional video workflow. It is platform agnostic: node creation, connections, and video generation follow the capabilities of the active canvas.
+**Canvas Manual to Video** is an original, production-grade Codex Skill designed for real industrial workflows, including equipment operation, assembly, maintenance, and standard work training. It turns site images and user-provided operating instructions into a traceable manual, then produces an instructional video shot for each step. It is platform agnostic: node creation, connections, and video generation follow the capabilities of the active canvas.
 
 Workflow:
 
@@ -30,7 +32,7 @@ Workflow:
 5. After that approval, generate the remaining shots in a batch. Connect each shot to the image nodes assigned to its step.
 6. Verify shot count, step order, image connections, and playable output.
 
-The skill flags unclear images or steps without supporting material instead of presenting guesses as facts. Changes to approved steps or image mappings trigger the relevant approval gate again.
+For practical industrial use, the skill keeps source images, procedural steps, and video shots traceable, with human approval gates. It flags unclear images, unspecified technical details, or steps without supporting material instead of presenting guesses as facts. Changes to approved steps or image mappings trigger the relevant approval gate again.
 
 **Usage:** Import this repository as a Skill, or place `SKILL.md` and `agents/openai.yaml` in a skill folder with the same name. In a node canvas environment, upload images, provide the operating instructions, and invoke `canvas-manual-to-video`.
 
