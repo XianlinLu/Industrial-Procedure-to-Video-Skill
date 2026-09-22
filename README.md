@@ -17,6 +17,8 @@
 
 面向实际工业使用，技能要求素材、操作步骤和镜头一一对应，并保留人工确认关卡。图片无法辨认、技术细节不明确或步骤缺少对应素材时，会标出缺口，不把推测写成事实。手册或素材映射发生变化时，会重新经过相应的确认环节。
 
+每个镜头的提示词统一包含“视频内容与画面、操作顺序、画面约束”；只有用户要求旁白或音效时，才加入与该镜头动作同步的“旁白与音效”部分。
+
 **使用方式：** 将本仓库作为 Skill 导入，或把 `SKILL.md` 与 `agents/openai.yaml` 放入同名技能目录。在支持节点画布的环境中，上传图片并提供操作说明，然后调用 `canvas-manual-to-video`。
 
 ## English introduction
@@ -33,6 +35,8 @@ Workflow:
 6. Verify shot count, step order, image connections, and playable output.
 
 For practical industrial use, the skill keeps source images, procedural steps, and video shots traceable, with human approval gates. It flags unclear images, unspecified technical details, or steps without supporting material instead of presenting guesses as facts. Changes to approved steps or image mappings trigger the relevant approval gate again.
+
+Each shot prompt follows a consistent structure: visual content, operation sequence, and visual constraints. A narration and sound effects section appears only when the user requests audio, and its content follows the actions in that specific shot.
 
 **Usage:** Import this repository as a Skill, or place `SKILL.md` and `agents/openai.yaml` in a skill folder with the same name. In a node canvas environment, upload images, provide the operating instructions, and invoke `canvas-manual-to-video`.
 
