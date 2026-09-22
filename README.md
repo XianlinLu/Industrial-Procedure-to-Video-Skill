@@ -23,7 +23,7 @@ Import this repository as a skill, or place `SKILL.md` and `agents/openai.yaml` 
 
 - **Scene tags:** Knowledge, Visual Design
 - **Skill name:** ProcessShot
-- **One-sentence introduction:** Original industrial video production skill: turn equipment, assembly, or maintenance images and instructions into an approved manual and one traceable video shot per step.
+- **One-sentence introduction:** Turns industrial images and instructions into an approved manual and one source-linked video shot per step. [How to Use] Upload images, describe the steps, then approve the manual and first shot. [Scenarios] Equipment operation, assembly, maintenance, training. [Outputs] Manual and video clips.
 - **Instructions for use:** Upload images and provide the operation instructions, preferred visual style and duration, and whether narration or sound effects are needed. Name every image node, then create a String/text manual with an image index, numbered steps, assigned sources, and completion states. Obtain approval of the manual before video generation; the step count must equal the shot count. For each step, connect its images to its video node and write a prompt with Video Content and Visuals, Operation Sequence, and Visual Constraints. Add synchronized narration or realistic sound effects only when requested; otherwise omit the entire audio section. Generate the first shot and obtain approval before generating the rest in a batch. Finally verify shot count, order, source connections, and playback.
 
 ## Import compatibility
