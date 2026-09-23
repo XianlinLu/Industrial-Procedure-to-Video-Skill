@@ -1,5 +1,7 @@
 # Industrial-Procedure-to-Video
 
+[English](README.md) | [简体中文](README_zh.md)
+
 **An original skill for production-grade industrial video workflows.**
 
 ProcessShot turns site images and user-provided instructions into a traceable manual and a step-by-step instructional video. It is designed for equipment operation, assembly, maintenance, and standard work training. The workflow is platform agnostic: node creation, image connections, and video generation use the capabilities of the active canvas.
