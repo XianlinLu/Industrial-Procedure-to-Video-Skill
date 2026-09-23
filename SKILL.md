@@ -18,13 +18,13 @@ An explicit language choice overrides detection. For mixed input, use the operat
 1. Inspect the existing canvas first. Reuse source images and completed nodes. Inspect every uploaded image, preserve the original, and give it a stable name such as `IMG-01 | Visible Component or State`. Read its pixel width and height and calculate `ratio = width / height`. Lumina accepts only `0.4 <= ratio <= 2.5`; use `0.41–2.49` as the operational range to avoid rounding failures. Do not connect or reference an out-of-range original in a video request.
 2. Determine the operation order from the user's instructions. Use the user's explicit top-level steps. If the instructions are not divided into steps, draft a step sequence based on action changes and put it in the manual for approval. Do not force the step count to equal the image count. One image may support multiple steps, and one step may use several images.
 
-For an invalid ratio, create `IMG-01-FIT | [localized description]` from the original. Use the requested valid shot ratio, or the nearest safe boundary when none is specified. Crop only expendable background; otherwise outpaint the short dimension from the original. Never stretch, reshape, or regenerate the equipment, tools, hands, labels, or operation-critical details. Recheck the derived pixels and ratio, record original and derived dimensions plus `crop` or `outpaint` in the manual, and replace every video connection and resolved reference chip with the FIT node. On an `image aspect ratio` or `content[n].image_url` error, identify the offending input and correct it; never retry unchanged.
+For an invalid ratio, create `IMG-01-FIT | [localized description]` from the original. Target the user's requested valid video ratio, or `16:9` by default. Crop only expendable background; otherwise outpaint the short dimension from the original. Never stretch, reshape, or regenerate the equipment, tools, hands, labels, or operation-critical details. Recheck the derived pixels and ratio, record original and derived dimensions plus `crop` or `outpaint` in the manual, and replace every video connection and resolved reference chip with the FIT node. On an `image aspect ratio` or `content[n].image_url` error, identify the offending input and correct it; never retry unchanged.
 
 ## Create the manual on the canvas
 
 Create an editable, persistent String or text node named `MANUAL-v1 | User Manual`. Include:
 
-- The task name and any output specifications the user supplied; mark unspecified settings `To be decided`.
+- The task name and output settings. Default to `Seedance 2.5`, `16:9`, and `1080p`; record any explicit user overrides.
 - An image index with each image node name and its visible content.
 - Consecutively numbered steps starting at `01`. For each step, state the action, assigned image node names, intended shot visuals, and an observable completion state. Mark unsupported information `Needs confirmation`.
 - The rule that each numbered step maps to exactly one video shot.
@@ -66,6 +66,8 @@ Write one prompt per approved step in the structure below. Translate every secti
 ### Create and wire the Lumina video node directly
 
 During shot generation, never create a standalone text, prompt-text, or prompt-input node; the persistent manual node is the exception. Instantiate one Lumina built-in `Video Generation` node per step, named `SHOT-01 | [localized step name] | Image-to-Video`, with incrementing IDs. Put the complete prompt in that node's internal prompt field using image-to-video or omnipotent-reference mode.
+
+Configure every video node with `Seedance 2.5`, `16:9`, and `1080p` unless the user explicitly requests another supported aspect ratio or resolution. Apply an override consistently to all affected shots and their FIT images. Do not switch the model unless the user explicitly requests it.
 
 Connect every assigned image output to the Video Generation input/reference port. Insert each image through Lumina's `@` picker so the prompt contains a resolved structured reference chip like the green UI tag. A typed literal such as `@image-node-name` is not a reference. Both the line and chip are required and must resolve to the same asset; otherwise pause and fix them.
 
@@ -109,7 +111,7 @@ Engineering 3D rendering, a fixed camera, and a specific duration are example pa
 
 ## Produce and approve the first shot
 
-After manual approval and completion of the narration decision branch, create and generate only the named `SHOT-01` Video Generation node for step 01. If narration is enabled, the voice audition must already be approved and `AUD-01` must be generated and duration-validated. Put the prompt inside the video node and make the required physical connections and resolved reference chips described above. Use the user's specified style, aspect ratio, duration, and other settings. Choose consistent available settings for unspecified parameters and record them in the manual or node. Check the image assets, action sequence, internal prompt, reference chips, audio mapping, and audio-duration total before generation.
+After manual approval and completion of the narration decision branch, create and generate only the named `SHOT-01` Video Generation node for step 01. If narration is enabled, the voice audition must already be approved and `AUD-01` must be generated and duration-validated. Put the prompt inside the video node and make the required physical connections and resolved reference chips described above. Apply the recorded model, ratio, resolution, style, and duration. Check the image assets, action sequence, internal prompt, reference chips, audio mapping, and audio-duration total before generation.
 
 Check that the first shot plays, follows its step, and preserves the key objects and operation states. Show it to the user and wait for explicit approval. If revisions are requested, correct and regenerate the first shot. Do not generate steps 02 through N before that approval.
 
@@ -125,6 +127,7 @@ Before delivery, verify:
 - N numbered manual steps map to N video shots with matching order and actions, without omissions or extras.
 - Every shot has actual links from its assigned source images, with no wrong, broken, or merely mentioned links.
 - No per-shot standalone prompt/text node exists; every prompt is inside its named Video Generation node, and each image mention is a resolved reference chip backed by a real connection.
+- Every shot uses the recorded model, aspect ratio, and resolution; absent user overrides these are `Seedance 2.5`, `16:9`, and `1080p`.
 - Every initially under-specified `Operation Sequence` has a source-backed toolchain and step-by-step Research supplement; unresolved steps remain ungenerated.
 - When narration is enabled, every `SHOT-XX` uses only its matching `AUD-XX`, every narration uses the approved voice reference, and each submitted audio total is at most 30.0 seconds.
 - When narration is disabled, no voice-reference, audition, narration-generation, or narration link remains in the workflow.

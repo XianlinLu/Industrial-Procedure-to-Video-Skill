@@ -21,6 +21,8 @@ Each shot prompt follows `Video Content and Visuals`, `Operation Sequence`, and 
 
 Each shot is built directly in a named Lumina `Video Generation` node. Its full prompt goes into the node's internal prompt field; no separate prompt-text node is created. Assigned images require both a real canvas connection and a resolved `@` reference chip in the prompt. Matching audio is connected only when that shot uses audio.
 
+Video generation defaults to `Seedance 2.5`, `16:9`, and `1080p`. An explicit user request for another supported aspect ratio or resolution overrides the corresponding default and is applied consistently across the affected shots.
+
 Every source image is checked before use. Lumina requires an aspect ratio from `0.4` to `2.5`; out-of-range images are converted into derived FIT assets by safe cropping or source-based outpainting without stretching or changing operation-critical content. Only the validated FIT asset is connected and referenced.
 
 Before writing an operation sequence, ProcessShot checks whether the manual contains an executable method. A bare effect name, technical term, or summary sentence triggers mandatory web research for both the applicable toolchain and a source-backed step-by-step workflow. The researched method is added to the manual before prompt or video generation; unresolved steps remain paused.
