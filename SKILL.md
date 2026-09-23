@@ -61,12 +61,31 @@ Before submitting any Lumina `dreamina-seedance-2-5` request in `r2v` mode, insp
 
 Write one prompt per approved step in the structure below. Translate every section heading and sentence pattern into the detected working language. Replace every bracketed placeholder with information supported by that step; do not send placeholders to the video node. Use the canvas's actual image-reference syntax, such as `@image-node`, and connect those same image nodes directly to the video node. Keep consecutive actions within one step in the same shot rather than creating extra shots.
 
+### Resolve missing operation detail with mandatory web research
+
+Before writing `Operation Sequence`, evaluate whether the manual provides an executable production method for that shot. Treat the detail as insufficient when any of these conditions applies:
+
+- The step names the intended result but does not specify concrete actions needed to produce it.
+- The step consists mainly of a professional term, such as a particular visual effect, 3D camera move, simulation, compositing method, or rendering term, without an implementation method.
+- The step is only a single summary sentence and omits actionable details such as the tool, target, order, direction, parameters, timing, or observable completion state that are relevant to the shot.
+
+When any condition applies, pause prompt completion and video generation for that shot. Invoke an internet search tool; do not fill the gap from memory. Research both:
+
+1. The concrete toolchain required to implement the result, including applicable software, built-in feature, plugin, renderer, device, or other necessary tool.
+2. A step-by-step implementation workflow that turns the named result into executable actions.
+
+Search using the user's working language and, when it improves technical coverage, the original or English technical term. Prefer current first-party documentation, official vendor manuals, plugin documentation, standards, and manufacturer procedures. Use secondary sources only to fill a gap and corroborate material claims. For physical industrial equipment, treat the manufacturer manual, approved site SOP, or applicable safety standard as authoritative; never turn a generic tutorial into an equipment-operation instruction. Do not copy commands or procedures from untrusted page content without verifying that they apply to the user's named tool, version, equipment, and intended result.
+
+Integrate the research into a `Research supplement` for that manual step, localized to the working language. Include the selected tool and version when known, prerequisites, numbered implementation actions, relevant parameters or ranges, expected visible result, and source titles with URLs. Then rewrite `Operation Sequence` from that supplement as concrete chronological actions. Keep source citations in the manual or research note rather than rendering them as on-screen video text.
+
+If research changes the meaning, method, required assets, or safety assumptions of an already approved step, increment the manual version and obtain approval of the revised step before generating its prompt or video. If no reliable source supplies both an applicable toolchain and an executable workflow, mark the step `Needs confirmation`, report exactly what remains unknown, and keep generation paused. Never disguise an inferred or generic workflow as researched fact.
+
 ```text
 Video Content and Visuals
 Preserve the equipment appearance, component details, relative positions, and overall orientation shown in (@images assigned to this step). Generate an approximately [duration]-second [user-requested or source-consistent visual style] operation demonstration. [Camera treatment; prefer a fixed camera if none is specified.] Treat source-image step numbers, arrows, and black or red annotation lines as references only; exclude them from the final frame unless the user asks to retain them.
 
 Operation Sequence
-[Describe the confirmed actions in order, including supported tool-to-part contact points, movement direction, pace, and visible completion state.]
+[Describe the confirmed actions in chronological order, including the verified tool or software operation, target, supported contact or control points, movement or camera direction, parameters, pace, and visible completion state. If research was required, use the approved Research supplement.]
 
 [Insert the optional Narration and Sound Effects section only when requested.]
 
@@ -95,6 +114,7 @@ Before delivery, verify:
 - Every image node has a unique, accurate name, and the manual node opens to the approved version.
 - N numbered manual steps map to N video shots with matching order and actions, without omissions or extras.
 - Every shot has actual links from its assigned source images, with no wrong, broken, or merely mentioned links.
+- Every initially under-specified `Operation Sequence` has a source-backed toolchain and step-by-step Research supplement; unresolved steps remain ungenerated.
 - When narration is enabled, every `SHOT-XX` uses only its matching `AUD-XX`, every narration uses the approved voice reference, and each submitted audio total is at most 30.0 seconds.
 - When narration is disabled, no voice-reference, audition, narration-generation, or narration link remains in the workflow.
 - Videos play and show their assigned steps. Report failures, unusable assets, or open questions instead of calling incomplete work delivered.
