@@ -1,4 +1,4 @@
-# ProcessShot
+# Industrial-Procedure-to-Video
 
 **An original skill for production-grade industrial video workflows.**
 
@@ -28,7 +28,7 @@ Import this repository as a skill, or place `SKILL.md` and `agents/openai.yaml` 
 ## Publishing fields
 
 - **Scene tags:** Knowledge, Visual Design
-- **Skill name:** ProcessShot
+- **Skill name:** Industrial-Procedure-to-Video
 - **One-sentence introduction:** Turns industrial images and instructions into an approved manual and one source-linked video shot per step. [How to Use] Upload images, describe the steps, then approve the manual and first shot. [Scenarios] Equipment operation, assembly, maintenance, training. [Outputs] Manual and video clips.
 - **Instructions for use:** Upload images and provide the operation instructions and preferred visual settings. Name every image node, create a String/text manual with an image index and numbered steps, and obtain approval of the manual. Before video generation, open Lumina's native interactive dialog and ask whether narration is needed. If yes, create an Audio Generation node, collect voice preferences one question at a time, generate a 20–30 second audition, and wait for approval. Use the approved voice reference to create one narration audio node per step; never connect the audition itself to a final video. Keep each `r2v` request's combined audio duration at or below 30.0 seconds. If narration is declined, skip all voice steps. Generate and approve the first shot before creating the rest, then wait for approval of the completed shot set before proceeding.
 
