@@ -15,6 +15,8 @@ ProcessShot turns site images and user-provided instructions into a traceable ma
 
 Each shot prompt follows `Video Content and Visuals`, `Operation Sequence`, and `Visual Constraints`. Add `Narration and Sound Effects` only when requested, based on the actions in that specific shot. Unclear images, unsupported technical details, and missing source material are flagged for review instead of being stated as facts. Changes to approved steps or image mappings trigger the relevant approval gate again.
 
+ProcessShot automatically follows the language of the user's operating instructions across all visible canvas content, including node labels, manuals, shot prompts, review questions, and status summaries. An explicit language choice always takes priority. Stable IDs, model numbers, part numbers, standards, and source labels remain unchanged where translation could alter their meaning.
+
 ## Use
 
 Import this repository as a skill, or place `SKILL.md` and `agents/openai.yaml` in a skill folder. In a compatible node canvas, upload the source images, provide the operation instructions, and invoke `canvas-manual-to-video`.

@@ -5,7 +5,13 @@ description: Original production-grade skill for industrial operation videos. Tu
 
 # ProcessShot: From Industrial Images to Instructional Video
 
-Work in the node canvas selected by the user or currently available. Use the image, String/text, and video nodes that the actual canvas supports. Do not assume a platform-specific node type, API, or generation setting exists. If the canvas is inaccessible, identify the missing connection or permission, preserve the asset inventory and manual draft, and do not claim that nodes or links were created. Write node names, manuals, and shot prompts in English unless the user explicitly requests another language.
+Work in the node canvas selected by the user or currently available. Use the image, String/text, and video nodes that the actual canvas supports. Do not assume a platform-specific node type, API, or generation setting exists. If the canvas is inaccessible, identify the missing connection or permission, preserve the asset inventory and manual draft, and do not claim that nodes or links were created.
+
+## Match the user's language
+
+Automatically detect the language of the user's current operating instructions and use it for all user-visible canvas work. This includes descriptive node names, the manual, image index, step descriptions, shot-prompt headings and bodies, status labels, open questions, approval requests, and delivery summaries. For example, an English request produces English canvas content, and a Japanese request produces Japanese canvas content. Preserve stable identifiers such as `IMG-01`, `MANUAL-v1`, and `SHOT-01`, but localize their descriptive labels. Translate the prompt-template headings below into the working language instead of copying the English headings verbatim.
+
+An explicit language request overrides automatic detection. If the request mixes languages, use the language of the operating instructions; if that is still unclear, use the dominant language of the user's latest message. Keep model numbers, part numbers, standards, trademarks, and source labels in their original form when translation could change their meaning. Narration follows the user's separately requested narration language; otherwise it uses the same working language. If the working language changes before approval, update all editable canvas text consistently before asking for approval. Do not expose private chain-of-thought; this rule applies to visible working content and concise progress or decision notes placed on the canvas.
 
 ## Prepare the source images
 
@@ -27,7 +33,7 @@ Every step needs at least one image that supports its visuals. If an image is mi
 
 ## Write a prompt for each shot
 
-Write one prompt per approved step in the structure below. Replace every bracketed placeholder with information supported by that step; do not send placeholders to the video node. Use the canvas's actual image-reference syntax, such as `@image-node`, and connect those same image nodes directly to the video node. Keep consecutive actions within one step in the same shot rather than creating extra shots.
+Write one prompt per approved step in the structure below. Translate every section heading and sentence pattern into the detected working language. Replace every bracketed placeholder with information supported by that step; do not send placeholders to the video node. Use the canvas's actual image-reference syntax, such as `@image-node`, and connect those same image nodes directly to the video node. Keep consecutive actions within one step in the same shot rather than creating extra shots.
 
 ```text
 Video Content and Visuals
