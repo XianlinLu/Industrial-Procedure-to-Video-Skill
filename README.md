@@ -21,6 +21,8 @@ Each shot prompt follows `Video Content and Visuals`, `Operation Sequence`, and 
 
 Each shot is built directly in a named Lumina `Video Generation` node. Its full prompt goes into the node's internal prompt field; no separate prompt-text node is created. Assigned images require both a real canvas connection and a resolved `@` reference chip in the prompt. Matching audio is connected only when that shot uses audio.
 
+Every source image is checked before use. Lumina requires an aspect ratio from `0.4` to `2.5`; out-of-range images are converted into derived FIT assets by safe cropping or source-based outpainting without stretching or changing operation-critical content. Only the validated FIT asset is connected and referenced.
+
 Before writing an operation sequence, ProcessShot checks whether the manual contains an executable method. A bare effect name, technical term, or summary sentence triggers mandatory web research for both the applicable toolchain and a source-backed step-by-step workflow. The researched method is added to the manual before prompt or video generation; unresolved steps remain paused.
 
 For Lumina `dreamina-seedance-2-5` in `r2v` mode, ProcessShot validates the combined duration of all audio attached to each video request and keeps it at or below 30.0 seconds, providing margin below the model's 30.2-second limit. The longer audition is used only as a voice reference and is never attached directly to the final shot video.

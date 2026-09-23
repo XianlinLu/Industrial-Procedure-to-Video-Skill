@@ -9,14 +9,16 @@ Work in the node canvas selected by the user or currently available. Use the ima
 
 ## Match the user's language
 
-Automatically detect the language of the user's current operating instructions and use it for all user-visible canvas work. This includes descriptive node names, the manual, image index, step descriptions, shot-prompt headings and bodies, status labels, open questions, approval requests, and delivery summaries. For example, an English request produces English canvas content, and a Japanese request produces Japanese canvas content. Preserve stable identifiers such as `IMG-01`, `MANUAL-v1`, and `SHOT-01`, but localize their descriptive labels. Translate the prompt-template headings below into the working language instead of copying the English headings verbatim.
+Detect the language of the user's operating instructions and use it for all visible canvas work: descriptive node names, the manual, image index, steps, prompts, statuses, questions, approvals, and summaries. Preserve IDs such as `IMG-01`, `MANUAL-v1`, and `SHOT-01`, but localize their labels and all prompt-template headings.
 
-An explicit language request overrides automatic detection. If the request mixes languages, use the language of the operating instructions; if that is still unclear, use the dominant language of the user's latest message. Keep model numbers, part numbers, standards, trademarks, and source labels in their original form when translation could change their meaning. Narration follows the user's separately requested narration language; otherwise it uses the same working language. If the working language changes before approval, update all editable canvas text consistently before asking for approval. Do not expose private chain-of-thought; this rule applies to visible working content and concise progress or decision notes placed on the canvas.
+An explicit language choice overrides detection. For mixed input, use the operating-instruction language or, if unclear, the dominant language of the latest message. Preserve model and part numbers, standards, trademarks, and source labels when translation could alter meaning. Narration uses its requested language or the working language. Before approval, apply any language change to all editable canvas text. This rule covers visible work and concise decision notes, never private chain-of-thought.
 
 ## Prepare the source images
 
-1. Inspect the existing canvas first. Reuse source images and completed nodes to avoid duplicates or repeat generation. Inspect every uploaded image and reconcile the number of image nodes. Preserve the original assets. Give each image node a stable, unique name such as `IMG-01 | Visible Component or Operation State`. Describe only what is visibly supported; mark uncertain details `Needs confirmation` rather than guessing equipment, parts, actions, or sequence.
+1. Inspect the existing canvas first. Reuse source images and completed nodes. Inspect every uploaded image, preserve the original, and give it a stable name such as `IMG-01 | Visible Component or State`. Read its pixel width and height and calculate `ratio = width / height`. Lumina accepts only `0.4 <= ratio <= 2.5`; use `0.41–2.49` as the operational range to avoid rounding failures. Do not connect or reference an out-of-range original in a video request.
 2. Determine the operation order from the user's instructions. Use the user's explicit top-level steps. If the instructions are not divided into steps, draft a step sequence based on action changes and put it in the manual for approval. Do not force the step count to equal the image count. One image may support multiple steps, and one step may use several images.
+
+For an invalid ratio, create `IMG-01-FIT | [localized description]` from the original. Use the requested valid shot ratio, or the nearest safe boundary when none is specified. Crop only expendable background; otherwise outpaint the short dimension from the original. Never stretch, reshape, or regenerate the equipment, tools, hands, labels, or operation-critical details. Recheck the derived pixels and ratio, record original and derived dimensions plus `crop` or `outpaint` in the manual, and replace every video connection and resolved reference chip with the FIT node. On an `image aspect ratio` or `content[n].image_url` error, identify the offending input and correct it; never retry unchanged.
 
 ## Create the manual on the canvas
 
@@ -119,7 +121,7 @@ After all remaining shot videos finish, present the completed shot set for revie
 
 Before delivery, verify:
 
-- Every image node has a unique, accurate name, and the manual node opens to the approved version.
+- Every image node has a unique, accurate name; every connected image ratio is within `0.41–2.49`; and the manual records any source-to-FIT transformation.
 - N numbered manual steps map to N video shots with matching order and actions, without omissions or extras.
 - Every shot has actual links from its assigned source images, with no wrong, broken, or merely mentioned links.
 - No per-shot standalone prompt/text node exists; every prompt is inside its named Video Generation node, and each image mention is a resolved reference chip backed by a real connection.
